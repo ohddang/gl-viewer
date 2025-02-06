@@ -1,25 +1,33 @@
 import { useEffect, useRef } from "react";
-import { Cube, Engine } from "garo";
+import { Cube, Engine } from "gl";
 import styled from "styled-components";
+import { vec3 } from "gl-matrix";
 
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const engine = new Engine({ canvas: canvasRef.current! });
+    engine.setCanvasSize(4192, 2560);
 
     const cube = new Cube(engine.getContext(), 0, 0, -1);
 
     engine.addObject(cube);
-    engine.render();
+    engine.camera.setPosition(0, 0, -2);
+    engine.setClearColor(1, 0.9, 0.5, 1);
+
+    setInterval(() => {
+      cube.rotation = vec3.fromValues(cube.rotation[0] + 0.01, cube.rotation[1] + 0.02, cube.rotation[2]);
+      engine.render();
+    }, 1000 / 60);
   }, []);
 
   return (
     <Wrapper>
-      <View ref={canvasRef}></View>
       <UI>
         <LeftTab></LeftTab>
         <MiddleArea>
+          <View ref={canvasRef}></View>
           <BottomTab></BottomTab>
         </MiddleArea>
         <RightTab></RightTab>
@@ -57,14 +65,13 @@ const LeftTab = styled.div`
 const MiddleArea = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   flex: 1;
-  pointer-events: none;
+  position: relative;
 `;
 
 const BottomTab = styled.div`
   height: 300px;
-  background-color: #404040;
+  background-color: #606060;
 `;
 
 const RightTab = styled.div`
