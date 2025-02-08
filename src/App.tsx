@@ -1,52 +1,53 @@
-import { useEffect, useRef } from "react";
-import { Cube, Engine } from "gl";
+import { useEffect, useRef, useState } from "react";
+import { Engine } from "@ohddang/gl";
 import styled from "styled-components";
-import { vec3 } from "gl-matrix";
+import { SceneUI } from "./ui";
 
 function App() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [engine, setEngine] = useState<Engine>();
 
   useEffect(() => {
-    const engine = new Engine({ canvas: canvasRef.current! });
-    engine.setCanvasSize(4192, 2560);
+    const newEngine = new Engine({ canvas: canvasRef.current!, width: 4192, height: 2560 });
+    setEngine(newEngine);
 
-    const cube = new Cube(engine.getContext(), 0, 0, -1);
+    const { camera, renderer } = newEngine.useEngine();
 
-    engine.addObject(cube);
-    engine.camera.setPosition(0, 0, -2);
-    engine.setClearColor(1, 0.9, 0.5, 1);
+    camera.setPosition(0, 0, -2);
+    renderer.setClearColor(1, 0.9, 0.5, 1);
 
     setInterval(() => {
-      cube.rotation = vec3.fromValues(cube.rotation[0] + 0.01, cube.rotation[1] + 0.02, cube.rotation[2]);
-      engine.render();
+      newEngine.render();
     }, 1000 / 60);
   }, []);
 
   return (
     <Wrapper>
-      <UI>
-        <LeftTab></LeftTab>
-        <MiddleArea>
-          <View ref={canvasRef}></View>
-          <BottomTab></BottomTab>
-        </MiddleArea>
-        <RightTab></RightTab>
-      </UI>
+      <LeftTab></LeftTab>
+      <MiddleArea>
+        <SceneWrapper>
+          <Scene ref={canvasRef} />
+          <SceneUI engine={engine} />
+        </SceneWrapper>
+        <BottomTab></BottomTab>
+      </MiddleArea>
+      <RightTab></RightTab>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
+const SceneWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
 `;
 
-const View = styled.canvas`
+const Scene = styled.canvas`
   width: 100%;
   height: 100%;
 `;
 
-const UI = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -70,7 +71,7 @@ const MiddleArea = styled.div`
 `;
 
 const BottomTab = styled.div`
-  height: 300px;
+  min-height: 300px;
   background-color: #606060;
 `;
 
