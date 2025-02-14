@@ -8,7 +8,7 @@ function App() {
   const [engine, setEngine] = useState<Engine>();
 
   useEffect(() => {
-    const newEngine = new Engine({ canvas: canvasRef.current!, width: 4192, height: 2560 });
+    const newEngine = new Engine({ canvasRef: canvasRef, width: 4192, height: 2560 });
     setEngine(newEngine);
 
     const { camera, renderer } = newEngine.useEngine();

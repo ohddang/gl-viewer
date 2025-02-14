@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "upgrade:gl": "yarn add file:../gl --force"
+    "update:gl": "yarn add file:../gl --force"
   },
   "dependencies": {
     "@ohddang/gl": "file:../gl",

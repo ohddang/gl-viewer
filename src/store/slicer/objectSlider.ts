@@ -1,25 +1,32 @@
+import { Object3D } from "@ohddang/gl/dist/components/core/Object3D";
+import { Group } from "@ohddang/gl/dist/loaders";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface ObjectState {
-  value: number;
-}
+const initialState: Group = new Group();
 
-const initialState: ObjectState = {
-  value: 0,
-};
+interface MaterialPayload {
+  meshId: string;
+  currentMaterialId: string;
+  newMaterialId: string;
+}
 
 export const objectSlice = createSlice({
   name: "object",
   initialState: initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    setMaterial: (state, action: PayloadAction<MaterialPayload>) => {
+      const findMesh = (target: Group, currentMaterialId: string, newMaterialId: string) => {
+        target.children.forEach((child) => {
+          if (child.type.toLowerCase() === "mesh") {
+          }
+        });
+      };
+
+      findMesh(state, action.payload.currentMaterialId, action.payload.newMaterialId);
     },
   },
 });
+
+export const { setMaterial } = objectSlice.actions;
+
+export default objectSlice.reducer;

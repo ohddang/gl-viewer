@@ -1,4 +1,5 @@
 import { Engine, OBJLoader } from "@ohddang/gl";
+import { Group } from "@ohddang/gl/dist/loaders";
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -21,7 +22,7 @@ export const SceneUI = ({ engine }: Props) => {
     const loader = new OBJLoader();
     loader.load(
       fileUrl,
-      (data: any) => {
+      (data: Group) => {
         console.log(data);
       },
       (percent: number) => {
