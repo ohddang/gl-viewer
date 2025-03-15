@@ -5,9 +5,10 @@ import styled from "styled-components";
 
 interface Props {
   engine: Engine | undefined;
+  onLoad: (data: Group) => void;
 }
 
-export const SceneUI = ({ engine }: Props) => {
+export const SceneUI = ({ engine, onLoad }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
 
@@ -16,7 +17,6 @@ export const SceneUI = ({ engine }: Props) => {
     if (!file) return;
 
     setFile(file);
-
     const fileUrl = URL.createObjectURL(file);
 
     const loader = new OBJLoader();
@@ -24,6 +24,7 @@ export const SceneUI = ({ engine }: Props) => {
       fileUrl,
       (data: Group) => {
         console.log(data);
+        onLoad(data);
       },
       (percent: number) => {
         console.log("progress : ", percent);

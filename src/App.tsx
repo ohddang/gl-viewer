@@ -2,10 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { Engine } from "@ohddang/gl";
 import styled from "styled-components";
 import { SceneUI } from "./ui";
+import ObjectHierarchy from "./components/objectHierarchy";
+import * as THREE from "three";
 
 function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [engine, setEngine] = useState<Engine>();
+  const [model, setModel] = useState<THREE.Object3D>();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
     const newEngine = new Engine({ canvasRef: canvasRef, width: 4192, height: 2560 });
@@ -23,11 +27,11 @@ function App() {
 
   return (
     <Wrapper>
-      <LeftTab></LeftTab>
+      <ObjectHierarchy data={model} onSelect={setSelectedId} />
       <MiddleArea>
         <SceneWrapper>
           <Scene ref={canvasRef} />
-          <SceneUI engine={engine} />
+          <SceneUI engine={engine} onLoad={setModel} />
         </SceneWrapper>
         <BottomTab></BottomTab>
       </MiddleArea>
@@ -56,11 +60,6 @@ const Wrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-`;
-
-const LeftTab = styled.div`
-  width: 300px;
-  background-color: #404040;
 `;
 
 const MiddleArea = styled.div`
