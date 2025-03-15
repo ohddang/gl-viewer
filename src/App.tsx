@@ -1,28 +1,24 @@
-import { useEffect, useRef, useState } from "react";
-import { Engine } from "@ohddang/gl";
+import { Canvas, Engine } from "@ohddang/gl";
 import styled from "styled-components";
 import { SceneUI } from "./ui";
 import ObjectHierarchy from "./components/objectHierarchy";
 import * as THREE from "three";
+import { useState, useEffect, useRef } from "react";
+
+interface CanvasRef {
+  getEngine(): Engine | null;
+}
 
 function App() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [engine, setEngine] = useState<Engine>();
   const [model, setModel] = useState<THREE.Object3D>();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [engine, setEngine] = useState<Engine | undefined>();
+  const canvasRef = useRef<CanvasRef>(null);
 
   useEffect(() => {
-    const newEngine = new Engine({ canvasRef: canvasRef, width: 4192, height: 2560 });
-    setEngine(newEngine);
-
-    const { camera, renderer } = newEngine.useEngine();
-
-    camera.setPosition(0, 0, -2);
-    renderer.setClearColor(1, 0.9, 0.5, 1);
-
-    setInterval(() => {
-      newEngine.render();
-    }, 1000 / 60);
+    if (canvasRef.current) {
+      setEngine(canvasRef.current.getEngine() || undefined);
+    }
   }, []);
 
   return (
@@ -30,7 +26,9 @@ function App() {
       <ObjectHierarchy data={model} onSelect={setSelectedId} />
       <MiddleArea>
         <SceneWrapper>
-          <Scene ref={canvasRef} />
+          <Canvas ref={canvasRef} width={4096} height={2560}>
+            {/* <Cube position={[0, 0, 0]} rotation={[0, 0, 0]} scale={[1, 1, 1]} type="Cube" /> */}
+          </Canvas>
           <SceneUI engine={engine} onLoad={setModel} />
         </SceneWrapper>
         <BottomTab></BottomTab>
@@ -44,11 +42,11 @@ const SceneWrapper = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-`;
 
-const Scene = styled.canvas`
-  width: 100%;
-  height: 100%;
+  & > canvas {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
