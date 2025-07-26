@@ -2,21 +2,21 @@ import styled from "styled-components";
 import * as THREE from "three";
 
 interface Props {
-  data: THREE.Object3D;
-  isSelected: boolean;
-  children?: React.ReactNode;
-  onSelect: (uuid: string) => void;
+	data: THREE.Object3D;
+	isSelected: boolean;
+	children?: React.ReactNode;
+	onSelect: (uuid: string) => void;
 }
 
 const Item = ({ data, children, isSelected, onSelect }: Props) => {
-  return (
-    <Container>
-      <Title $isSelected={isSelected} onClick={() => onSelect(data.uuid)}>
-        {`${data.uuid.slice(0, 8)} ${data.type}`}
-      </Title>
-      {children && <div>{children}</div>}
-    </Container>
-  );
+	return (
+		<Container>
+			<Title $isSelected={isSelected} onClick={() => onSelect(data.uuid)}>
+				{`${data.uuid.slice(0, 8)} ${data.type}`}
+			</Title>
+			{children && <div>{children}</div>}
+		</Container>
+	);
 };
 
 export default Item;

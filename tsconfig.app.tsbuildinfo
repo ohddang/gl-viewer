@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/styled.d.ts","./src/vite-env.d.ts","./src/components/scene.tsx","./src/components/objectHierarchy/index.tsx","./src/components/objectHierarchy/items.tsx","./src/store/sceneStore.ts","./src/store/store.ts","./src/store/slicer/objectSlider.ts","./src/ui/index.tsx"],"version":"5.6.3"}

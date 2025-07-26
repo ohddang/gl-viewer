@@ -1,8 +1,8 @@
-import { Suspense, useEffect } from "react";
 import { Canvas, useLoader } from "@react-three/fiber";
-import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
-import { useSceneStore } from "../store/sceneStore";
 import { OrbitControls } from "@react-three/drei";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { Suspense, useEffect } from "react";
+import { useSceneStore } from "../store/sceneStore";
 
 const LoadedModel = ({ url }: { url: string }) => {
   const { setModel } = useSceneStore();

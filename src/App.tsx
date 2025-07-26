@@ -1,28 +1,31 @@
 import styled from "styled-components";
 import { SceneUI } from "./ui";
 import ObjectHierarchy from "./components/objectHierarchy";
-import * as THREE from "three";
 import { useState } from "react";
 import { Scene } from "./components/scene";
 import { useSceneStore } from "./store/sceneStore";
 
 function App() {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { model, clearModel } = useSceneStore();
+	const [, setSelectedId] = useState<string | null>(null);
+	const { model, clearModel } = useSceneStore();
 
-  return (
-    <Wrapper>
-      <ObjectHierarchy onSelect={setSelectedId} />
-      <MiddleArea>
-        <SceneWrapper>
-          <Scene />
-          {!model ? <SceneUI /> : <DeleteButton onClick={clearModel}>Delete Model</DeleteButton>}
-        </SceneWrapper>
-        <BottomTab></BottomTab>
-      </MiddleArea>
-      <RightTab></RightTab>
-    </Wrapper>
-  );
+	return (
+		<Wrapper>
+			<ObjectHierarchy onSelect={setSelectedId} />
+			<MiddleArea>
+				<SceneWrapper>
+					<Scene />
+					{!model ? (
+						<SceneUI />
+					) : (
+						<DeleteButton onClick={clearModel}>Delete Model</DeleteButton>
+					)}
+				</SceneWrapper>
+				<BottomTab></BottomTab>
+			</MiddleArea>
+			<RightTab></RightTab>
+		</Wrapper>
+	);
 }
 
 const DeleteButton = styled.button`

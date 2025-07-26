@@ -4,30 +4,42 @@ import styled from "styled-components";
 import { useSceneStore } from "../store/sceneStore";
 
 export const SceneUI = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const { setModelUrl } = useSceneStore();
+	const inputRef = useRef<HTMLInputElement>(null);
+	const { setModelUrl } = useSceneStore();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
 
-    const fileUrl = URL.createObjectURL(file);
-    setModelUrl(fileUrl);
-  };
+		const fileUrl = URL.createObjectURL(file);
+		setModelUrl(fileUrl);
+	};
 
-  return (
-    <Container>
-      <input type="file" accept=".obj" ref={inputRef} style={{ display: "none" }} onChange={handleChange} />
-      <LoadButton onClick={() => inputRef.current?.click()}>
-        <svg width="20%" height="20%" viewBox="0 0 500 500">
-          <title>Load file icon</title>
-          <path d="M256,64 L256,128 L384,192 L256,256 L128,192 L256,128 Z" fill="white" />
-          <path d="M256,128 L256,192 L384,256 L256,320 L128,256 L256,192 Z" fill="white" />
-        </svg>
-        <p>Load File</p>
-      </LoadButton>
-    </Container>
-  );
+	return (
+		<Container>
+			<input
+				type="file"
+				accept=".obj"
+				ref={inputRef}
+				style={{ display: "none" }}
+				onChange={handleChange}
+			/>
+			<LoadButton onClick={() => inputRef.current?.click()}>
+				<svg width="20%" height="20%" viewBox="0 0 500 500">
+					<title>Load file icon</title>
+					<path
+						d="M256,64 L256,128 L384,192 L256,256 L128,192 L256,128 Z"
+						fill="white"
+					/>
+					<path
+						d="M256,128 L256,192 L384,256 L256,320 L128,256 L256,192 Z"
+						fill="white"
+					/>
+				</svg>
+				<p>Load File</p>
+			</LoadButton>
+		</Container>
+	);
 };
 
 const LoadButton = styled.div<any>`

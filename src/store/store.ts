@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { objectSlice } from "./slicer/objectSlider";
+// import objectSlicer from './slicer/objectSlider'
 
 export const store = configureStore({
-  reducer: {
-    object: objectSlice.reducer,
-  },
+	reducer: {
+		// object: objectSlicer,
+	},
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
