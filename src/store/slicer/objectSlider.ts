@@ -1,4 +1,3 @@
-import { Object3D } from "@ohddang/gl/dist/components/core/Object3D";
 import { Group } from "@ohddang/gl/dist/loaders";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 

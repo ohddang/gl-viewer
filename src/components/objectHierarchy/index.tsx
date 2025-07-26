@@ -2,13 +2,14 @@ import * as THREE from "three";
 import styled from "styled-components";
 import Item from "./items";
 import { useState } from "react";
+import { useSceneStore } from "../../store/sceneStore";
 
 interface Props {
-  data: THREE.Object3D | undefined;
   onSelect: (uuid: string) => void;
 }
 
-const ObjectHierarchy = ({ data, onSelect }: Props) => {
+const ObjectHierarchy = ({ onSelect }: Props) => {
+  const { model } = useSceneStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const handleSelect = (uuid: string) => {
@@ -19,13 +20,17 @@ const ObjectHierarchy = ({ data, onSelect }: Props) => {
   const render = (data: THREE.Object3D) => {
     if (!data) return null;
     if (data.type === "Group") {
-      return <Item data={data} children={data.children.map((child) => render(child))} onSelect={handleSelect} isSelected={selectedId === data.uuid} />;
+      return (
+        <Item data={data} onSelect={handleSelect} isSelected={selectedId === data.uuid}>
+          {data.children.map((child) => render(child))}
+        </Item>
+      );
     } else if (data.type === "Mesh") {
       return <Item key={data.uuid} data={data} onSelect={handleSelect} isSelected={selectedId === data.uuid} />;
     }
   };
 
-  return <LeftTab>{data && render(data)}</LeftTab>;
+  return <LeftTab>{model && render(model)}</LeftTab>;
 };
 
 export default ObjectHierarchy;

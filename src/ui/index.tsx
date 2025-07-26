@@ -1,35 +1,18 @@
-import { Engine, OBJLoader } from "@ohddang/gl";
-import { Group } from "@ohddang/gl/dist/loaders";
-import { useRef, useState } from "react";
+// @ts-nocheck
+import { useRef } from "react";
 import styled from "styled-components";
+import { useSceneStore } from "../store/sceneStore";
 
-interface Props {
-  engine: Engine | undefined;
-  onLoad: (data: Group) => void;
-}
-
-export const SceneUI = ({ engine, onLoad }: Props) => {
+export const SceneUI = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
+  const { setModelUrl } = useSceneStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setFile(file);
     const fileUrl = URL.createObjectURL(file);
-
-    const loader = new OBJLoader();
-    loader.load(
-      fileUrl,
-      (data: Group) => {
-        console.log(data);
-        onLoad(data);
-      },
-      (percent: number) => {
-        console.log("progress : ", percent);
-      }
-    );
+    setModelUrl(fileUrl);
   };
 
   return (
@@ -37,6 +20,7 @@ export const SceneUI = ({ engine, onLoad }: Props) => {
       <input type="file" accept=".obj" ref={inputRef} style={{ display: "none" }} onChange={handleChange} />
       <LoadButton onClick={() => inputRef.current?.click()}>
         <svg width="20%" height="20%" viewBox="0 0 500 500">
+          <title>Load file icon</title>
           <path d="M256,64 L256,128 L384,192 L256,256 L128,192 L256,128 Z" fill="white" />
           <path d="M256,128 L256,192 L384,256 L256,320 L128,256 L256,192 Z" fill="white" />
         </svg>
@@ -46,7 +30,7 @@ export const SceneUI = ({ engine, onLoad }: Props) => {
   );
 };
 
-const LoadButton = styled.div`
+const LoadButton = styled.div<any>`
   width: auto;
   display: flex;
   flex-direction: column;
@@ -57,7 +41,7 @@ const LoadButton = styled.div`
   cursor: pointer;
 `;
 
-const Container = styled.div`
+const Container = styled.div<any>`
   position: absolute;
   top: 0;
   left: 0;

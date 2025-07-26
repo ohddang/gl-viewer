@@ -1,18 +1,26 @@
-import { Canvas } from "@ohddang/gl";
-import { ComponentClass, ReactNode } from "react";
+import { Suspense, useEffect } from "react";
+import { Canvas, useLoader } from "@react-three/fiber";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { useSceneStore } from "../store/sceneStore";
+import { OrbitControls } from "@react-three/drei";
 
-interface CanvasProps {
-  width: number;
-  height: number;
-  children: ReactNode;
-}
-
-const CanvasComponent = Canvas as unknown as ComponentClass<CanvasProps>;
+const LoadedModel = ({ url }: { url: string }) => {
+  const { setModel } = useSceneStore();
+  const obj = useLoader(OBJLoader, url);
+  useEffect(() => {
+    setModel(obj);
+  }, [obj, setModel]);
+  return <primitive object={obj} />;
+};
 
 export const Scene = () => {
+  const { modelUrl } = useSceneStore();
   return (
-    <CanvasComponent width={4192} height={2560}>
-      <></>
-    </CanvasComponent>
+    <Canvas>
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <Suspense fallback={null}>{modelUrl && <LoadedModel url={modelUrl} />}</Suspense>
+      <OrbitControls />
+    </Canvas>
   );
 };

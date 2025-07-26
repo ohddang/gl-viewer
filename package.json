@@ -8,29 +8,27 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "link:gl": "cd ../gl && yarn link && cd - && yarn link @ohddang/gl",
-    "update:gl": "cd ../gl && yarn build && cd -",
-    "unlink:gl": "yarn unlink @ohddang/gl && cd ../gl && yarn unlink"
+    "biome:init": "biome init"
   },
   "dependencies": {
-    "@ohddang/gl": "file:../gl",
+    "@react-three/drei": "^9",
+    "@react-three/fiber": "^8",
     "@reduxjs/toolkit": "^2.5.0",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-redux": "^9.2.0",
-    "styled-components": "^6.1.14"
+    "styled-components": "^6.1.14",
+    "three": "^0.167.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "@types/react": "18.0.0",
-    "@types/react-dom": "18.0.0",
+    "@biomejs/biome": "^2.1.2",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/three": "^0.167.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.17.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "typescript": "~5.6.2",
-    "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
   }
 }
